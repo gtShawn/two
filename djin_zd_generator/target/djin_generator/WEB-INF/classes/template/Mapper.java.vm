@@ -1,0 +1,13 @@
+package ${package}.mapper;
+
+import ${package}.commons.entity.${className}Entity;
+
+/**
+ * 
+ * @author ${author}
+ *    ${className}Mapper层
+ * @date ${datetime}
+ */
+public interface ${className}Mapper extends BaseMapper<${className}Entity> {
+	
+}

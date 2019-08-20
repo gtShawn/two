@@ -1,0 +1,143 @@
+package ${package}.consumer.controller;
+
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.github.pagehelper.PageInfo;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.stereotype.Controller;
+import ${package}.commons.entity.${className}Entity;
+import ${package}.commons.service.${className}Service;
+import org.springframework.web.bind.annotation.ResponseBody;
+import java.util.Map;
+ 
+/**
+ * 
+ * @author ${author}
+ *   ${className}控制器
+ * @date ${datetime}
+ */
+@Controller
+@RequestMapping("/${pathName}")
+public class ${className}Controller extends BaseController<${className}Entity>{
+
+    //使消费者通知到提供者
+    @Reference(version = "1.0.0")
+    private ${className}Service ${pathName}Service;
+
+	/**
+	 * 页面jsp
+	 */
+	@RequestMapping("/page")
+	public String page(){
+		return "${pathName}";
+	}
+
+    /**
+     * 页面html
+     */
+    @RequestMapping("/html")
+    public String html(){
+        return "redirect:/static/html/${pathName}.html";
+    }
+
+    /**
+	 * 加载（分页） 根据是否存在条件加载
+	 */
+    @RequestMapping("/listByPramas")
+    @ResponseBody
+    public Map<String, Object> listByPramas(Integer page, Integer limit,${className}Entity ${pathName}){
+        try {
+            map = ${pathName}Service.findListByPramas(page, limit, ${pathName});
+            map.put("code", SUCCESSCODE);
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return putMsgToJsonString(FAILCODE,FAILMSG,FAILCOUNT,null);
+        }
+    }
+
+    /**
+     * 加载（分页） 根据是否存在条件加载
+     */
+    @RequestMapping("/pageByPramas")
+    @ResponseBody
+    public PageInfo<${className}Entity> pageByPramas(Integer page, Integer limit, ${className}Entity ${pathName}){
+        try {
+            return ${pathName}Service.findPageByPramas(page,limit,${pathName});
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 根据条件查询单个结果
+     **/
+    @RequestMapping("/loadObjectByPramas")
+    @ResponseBody
+    public ${className}Entity loadObjectByPramas(${className}Entity ${pathName}){
+        try {
+            return ${pathName}Service.findObjectByPramas(${pathName});
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 根据条件删除
+     */
+    @RequestMapping("/delete")
+    @ResponseBody
+    public String delete(${className}Entity ${pathName}){
+        try {
+            return ${pathName}Service.remove(${pathName});
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ERROR;
+        }
+    }
+
+    /**
+     * 批量删除
+     */
+    @RequestMapping("/deletes")
+    @ResponseBody
+    public String deletes(Integer[] ids){
+        try {
+            return ${pathName}Service.removeBatch(ids);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ERROR;
+        }
+
+    }
+
+    /**
+     * 添加
+     */
+    @RequestMapping("/saveT")
+    @ResponseBody
+    public String saveT(${className}Entity ${pathName}){
+        try {
+            return ${pathName}Service.save(${pathName});
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ERROR;
+        }
+    }
+
+    /**
+     * 修改
+    */
+    @RequestMapping("/updT")
+    @ResponseBody
+    public String updT(${className}Entity ${pathName}){
+        try {
+            return ${pathName}Service.upd(${pathName});
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ERROR;
+        }
+    }
+
+}
